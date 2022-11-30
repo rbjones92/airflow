@@ -15,7 +15,7 @@ Mini project demonstrating use of Apache-Airflow
 1. [Download Apache-Airflow to be run in a Docker Container](https://towardsdatascience.com/run-airflow-docker-1b83a57616fb)
 <br>
 2. Create dag .py file
-![Alt Text](screenshots/test_dag_pic_1.png?raw=true "test dag")
+![Alt Text](screenshots/test_dag_pic_1.png raw=true "test dag")
 <br>
 ![Alt Text](screenshots/test_dag_pic_2.png?raw=true "test dag 2")
 <br>
