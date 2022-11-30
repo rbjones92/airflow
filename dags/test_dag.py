@@ -2,6 +2,7 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
+import pandas as pd
 
 
 default_args = {
@@ -15,15 +16,7 @@ default_args = {
 dag = DAG(dag_id='market_vol', default_args=default_args, description = 'DL TSLA and APPL ticker data', schedule_interval='0 18 * * 1-5')
 
 def get_data(ticker):
-    '''
-    import sys
-    import subprocess
-    # implement pip as a subprocess:
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'yfinance'])
-    '''
-    
     import yfinance as yf
-    import pandas as pd
     end_date = datetime.today()
     start_date = end_date - timedelta(days=1)
     sdate = str(start_date)
@@ -31,6 +24,20 @@ def get_data(ticker):
     filename = (f'/tmp/data/{ticker}_{sdate[0:10]}.csv')
     df = pd.DataFrame(df)
     df.to_csv(f'{filename}',header=True)
+
+def query_data():
+    import glob
+    # read Apple data
+    for f in glob.glob('/tmp/data/AAPL*'):
+        df = pd.read_csv(f)
+        df = df.describe()
+        filename = (f'/tmp/data/AAPL_summary_stats.csv')
+        df.to_csv(filename)
+    for f in glob.glob('/tmp/data/TSLA*'):
+        df = pd.read_csv(f)
+        df = df.describe()
+        filename = (f'/tmp/data/TSLA_summary_stats.csv')
+        df.to_csv(filename)
 
 
 make_data_directory = BashOperator(
@@ -58,4 +65,10 @@ t2 = PythonOperator(
 )
 
 
-make_data_directory >> t1 >> t2
+t3 = PythonOperator(
+    task_id='query_data',
+    python_callable=query_data,
+    dag=dag
+)
+
+make_data_directory >> t1 >> t2 >> t3
