@@ -16,12 +16,9 @@ Mini project demonstrating use of Apache-Airflow
 <br>
 2. Create dag .py file
 ![Alt Text](screenshots/test_dag_1.png?raw=true "test dag")
-<br>
 ![Alt Text](screenshots/test_dag_2.png?raw=true "test dag")
-<br>
 3. Run docker-compose up
 ![Alt Text](screenshots/docker_compose_up.png?raw=true "docker compose up")
-<br>
 4. View webserver on localhost:8080 and run DAG
 ![Alt Text](screenshots/dag_run.png?raw=true "docker compose up")
 
