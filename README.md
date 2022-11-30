@@ -1,4 +1,4 @@
-## spark_optimization
+## Airflow Mini-Project
 
 ## Summary
 Use Apache-Airflow to download and query stock data  
